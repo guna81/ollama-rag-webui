@@ -1,0 +1,22 @@
+.inputSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.inputSection .input {
+  min-height: 40px;
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 1em;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
