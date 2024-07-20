@@ -94,7 +94,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
 
-      if (documents.length !== 0) {
+      if (documents.length === 0) {
         const payload: any = {
           model: selectedModel,
           messages: [

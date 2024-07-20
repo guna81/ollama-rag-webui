@@ -20,25 +20,21 @@ const Ollama: React.FC = () => {
   console.log({ selectedModel });
 
   return (
-    <div className={styles.ollama}>
-      <h2>Ollama</h2>
-      <div className={styles.modelSelector}>
-        <label htmlFor="model">Model List</label>
-        <select
-          id="model"
-          name="model"
-          value={selectedModel}
-          onChange={(e) => changeModel(e.target.value)}
-        >
-          {ollamaModels.map((model) => {
-            return (
-              <option key={model.model} value={model.name}>
-                {model.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
+    <div className={styles.modelSelector}>
+      <select
+        id="model"
+        name="model"
+        value={selectedModel}
+        onChange={(e) => changeModel(e.target.value)}
+      >
+        {ollamaModels.map((model) => {
+          return (
+            <option key={model.model} value={model.name}>
+              {model.name}
+            </option>
+          );
+        })}
+      </select>
     </div>
   );
 };

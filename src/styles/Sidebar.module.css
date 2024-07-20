@@ -1,27 +1,35 @@
 .sidebar {
   width: 20%;
   max-width: 360px;
-  background-color: var(--secondary-color);
-  color: white;
+  background-color: #fff;
+  color: #222;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  /* border-right: #3a3a3a96 1px solid; */
+  box-shadow: #3a3a3a96 0 0 4px;
   /* justify-content: space-between; */
 }
 
 .sidebarHeader {
   padding: 24px 16px;
-  background-color: #399be3;
+  background-color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border-bottom: #6d6b6b96 1px solid;
+}
+
+.sidebarHeader img {
+  margin-bottom: 16px;
+  object-fit: contain;
 }
 
 .sidebarHeader .title {
   font-size: 1.5rem;
   font-weight: bold;
-  color: white;
+  color: var(--text-color);
 }
 
 .sidebarBody {
@@ -41,11 +49,11 @@
   padding: 20px; */
 }
 
-.ollama .modelSelector {
+.modelSelector {
   padding: 8px 0;
-  /* display: flex;
-  flex-direction: column;
-  align-items: center; */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .ollama .modelSelector label {

@@ -3,7 +3,7 @@ import styles from "@/styles/Sidebar.module.css";
 import Ollama from "./Sidebar/Ollama";
 import Image from "next/image";
 
-import logo from "../../assets/logo/logo.png";
+import logo from "../../assets/logo/ollama.png";
 import Document from "./Sidebar/Document";
 
 const Sidebar: React.FC = () => {
@@ -11,13 +11,10 @@ const Sidebar: React.FC = () => {
     <div className={styles.sidebar}>
       <div className={styles.sidebarHeader}>
         <Image src={logo} alt="logo" width={100} height={100} />
-        <h1 className={styles.title}>Chat With Data</h1>
+        <h1 className={styles.title}>Ollama Chat</h1>
       </div>
 
-      <div className={styles.sidebarBody}>
-        <Ollama />
-        <Document />
-      </div>
+      <div className={styles.sidebarBody}>{/* <Document /> */}</div>
     </div>
   );
 };
