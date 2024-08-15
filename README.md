@@ -1,1 +1,1 @@
-# ollama-web-ui
+# Ollam Web UI
