@@ -1,12 +1,20 @@
 # Ollama Web UI
 
-A web ui for ollama api, built using next.js.
+A Web UI for ollama api, Built using Next.js.
 
 ## Screenshot
 
 ![ollama web](./screenshots/screenshot1.png "ollama web")
 
-## Run Web App
+## Run App (Ollama Required)
+
+### Using NPM
+
+```bash
+  cd web && npm install && npm run dev
+```
+
+### Using Docker
 
 ```bash
   docker compose up --build

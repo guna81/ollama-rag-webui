@@ -1,5 +1,6 @@
 "use client";
 
+import Head from "next/head";
 import React from "react";
 import Sidebar from "../components/layout/Sidebar";
 import Main from "../components/Main";
@@ -14,6 +15,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const Home: React.FC = () => {
   return (
     <div className={styles.home}>
+      {/* <Head>
+        <link rel="shortcut icon" href="/favicon.ico" />
+      </Head> */}
+
       <AppProvider>
         <OllamaProvider>
           <Sidebar />

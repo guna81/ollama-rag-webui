@@ -1,9 +1,0 @@
-env
-__pycache__
-.ipynb_checkpoints
-.env
-.env.local
-
-/docs/*
-/mymodel/datasets/*
-/mymodel/models/*
