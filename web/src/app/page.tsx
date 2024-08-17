@@ -1,17 +1,19 @@
 "use client";
 
 import React from "react";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/layout/Sidebar";
 import Main from "../components/Main";
 import { AppProvider } from "@/context/AppContext";
+import { OllamaProvider } from "@/context/OllamaContext";
+
+import styles from "../styles/Home.module.css";
 
 import "@/styles/styles.css";
-import styles from "../styles/Home.module.css";
-import { OllamaProvider } from "@/context/OllamaContext";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Home: React.FC = () => {
   return (
-    <div className={styles.container}>
+    <div className={styles.home}>
       <AppProvider>
         <OllamaProvider>
           <Sidebar />

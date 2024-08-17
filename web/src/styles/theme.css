@@ -1,7 +1,10 @@
 :root {
-  --primary-color: #00bfff;
+  --primary-color: #54b4d3;
   --secondary-color: #2e2e2e;
 
   --text-color: #2e2e2e;
   --background-color: #f4f4f4;
+
+  /* --chat-user1-color: #fbfbfb;
+  --chat-user2-color: rgba(57, 192, 237, 0.2); */
 }

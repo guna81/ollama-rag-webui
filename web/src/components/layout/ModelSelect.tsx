@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useApp } from "@/context/AppContext";
+import Form from "react-bootstrap/Form";
 
-import styles from "@/styles/Sidebar.module.css";
+import styles from "@/styles/Main.module.css";
 
 const ModelSelect: React.FC = () => {
   const { ollamaModels, getOllamaModels, selectedModel, changeModel } =
@@ -21,7 +22,8 @@ const ModelSelect: React.FC = () => {
 
   return (
     <div className={styles.modelSelector}>
-      <select
+      <Form.Select
+        style={{ width: 320 }}
         id="model"
         name="model"
         value={selectedModel}
@@ -34,7 +36,7 @@ const ModelSelect: React.FC = () => {
             </option>
           );
         })}
-      </select>
+      </Form.Select>
     </div>
   );
 };

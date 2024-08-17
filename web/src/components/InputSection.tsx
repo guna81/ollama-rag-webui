@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styles from "@/styles/InputSection.module.css";
 
-import sendIcon from "../../assets/icons/send-icon.svg";
-import Image from "next/image";
 import { useOllama } from "@/context/OllamaContext";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane, faStop } from "@fortawesome/free-solid-svg-icons";
+
+import Form from "react-bootstrap/Form";
 
 const InputSection: React.FC = () => {
   const { isLoading, isStreaming, sendMessage, abortLastRequest } = useOllama();
@@ -44,10 +44,11 @@ const InputSection: React.FC = () => {
 
   return (
     <form className={styles.inputSection}>
-      <textarea
-        rows={1}
+      <Form.Control
         className={styles.input}
-        placeholder="What's up?"
+        as="textarea"
+        rows={1}
+        placeholder="Type a message"
         value={message}
         onChange={(e: any) => setMessage(e.target.value)}
         onKeyDown={handleKeyDown}

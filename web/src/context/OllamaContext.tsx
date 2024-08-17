@@ -52,46 +52,24 @@ export const OllamaProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!isStreaming && streamingCotent) {
-      const responseMessage = {
-        id: crypto.randomUUID(),
-        sender: "assistant",
-        content: streamingCotent,
-        timestamp: new Date(),
-      };
-      setMessages((prevMessages) => [...prevMessages, responseMessage]);
-      setStreamingContent("");
+  const abortLastRequest = useCallback(async () => {
+    if (isLoading || isStreaming) {
+      // Abort the current request
+      console.log("Aborting last request");
+
+      ollama.abort();
+      setLoading(false);
+      setIsStreaming(false);
+
+      // creating manual timeout
+      await new Promise((resolve) => setTimeout(resolve, 500));
     }
-  }, [isStreaming, streamingCotent]);
-
-  // const controller = useRef<AbortController | null>(null);
-
-  const abortLastRequest = useCallback(() => {
-    // if (controller.current) {
-    //   console.log("Aborting last request");
-
-    //   // Abort the current request
-    //   controller.current.abort();
-    //   controller.current = null;
-
-    //   // Update UI states
-    //   setLoading(false);
-    //   // setIsStreaming(false);
-    // }
-
-    ollama.abort();
-  }, []);
+  }, [isLoading, isStreaming]);
 
   const sendMessage = useCallback(
     async (message: any) => {
       // Abort the previous request if it exists
-      abortLastRequest();
-
-      // Create a new AbortController for the current request
-      // controller.current = new AbortController();
-      // const signal = controller.current.signal;
-      // console.log({ controller, signal });
+      await abortLastRequest();
 
       const userMessage = {
         id: crypto.randomUUID(),
@@ -132,8 +110,21 @@ export const OllamaProvider: React.FC<AppProviderProps> = ({ children }) => {
         setIsStreaming(false);
       }
     },
-    [selectedModel]
+    [selectedModel, abortLastRequest]
   );
+
+  useEffect(() => {
+    if (!isStreaming && streamingCotent) {
+      const responseMessage = {
+        id: crypto.randomUUID(),
+        sender: "assistant",
+        content: streamingCotent,
+        timestamp: new Date(),
+      };
+      setMessages((prevMessages) => [...prevMessages, responseMessage]);
+      setStreamingContent("");
+    }
+  }, [isStreaming, streamingCotent]);
 
   return (
     <OllamaContext.Provider

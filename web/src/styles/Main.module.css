@@ -1,8 +1,32 @@
 .main {
-  width: 75%;
-  padding: 20px;
+  width: 100%;
+  padding: 16px;
+  background-color: var(--background-color);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.modelSelector {
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.ollama .modelSelector label {
+  margin-bottom: 8px;
+  display: block;
+  font-size: 14px;
+}
+
+.ollama .modelSelector select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333;
+  background-color: var(--background-color);
 }

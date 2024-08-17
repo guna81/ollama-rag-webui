@@ -1,0 +1,20 @@
+services:
+  
+  web:
+    container_name: ollama-web
+    build: ./web
+    ports:
+      - ${FRONTEND_PORT}:3000
+    volumes:
+      - ../ollama-web:/ollama-web
+    restart: unless-stopped
+
+  # backend:
+  #   container_name: ollama-backend
+  #   build: ./backend
+  #   ports:
+  #     - ${BACKEND_PORT}:8000
+  #   volumes:
+  #     - ../ollama-backend:/ollama-backend
+  #   command: bash -c "python manage.py runserver 0.0.0.0:8000"
+  #   restart: unless-stopped
