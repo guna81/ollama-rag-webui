@@ -20,3 +20,13 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.inputSection .sendButton {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 5px;
+}

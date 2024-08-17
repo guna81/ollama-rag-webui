@@ -6,6 +6,7 @@ import React, {
   ReactNode,
   useCallback,
   useEffect,
+  useRef,
 } from "react";
 
 import ollama from "ollama/browser";
@@ -35,6 +36,7 @@ interface ChatContextProps {
   isLoading: boolean;
   error: string | null;
   sendMessage: (payload: any) => void;
+  abortLastRequest: () => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
 }
@@ -63,26 +65,33 @@ export const OllamaProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
   }, [isStreaming, streamingCotent]);
 
-  let controller: any = null;
+  // const controller = useRef<AbortController | null>(null);
 
-  const abortLastRequest = () => {
-    if (controller) {
-      controller.abort();
-      controller = null;
-      setLoading(false);
-      setIsStreaming(false);
-    }
-  };
+  const abortLastRequest = useCallback(() => {
+    // if (controller.current) {
+    //   console.log("Aborting last request");
+
+    //   // Abort the current request
+    //   controller.current.abort();
+    //   controller.current = null;
+
+    //   // Update UI states
+    //   setLoading(false);
+    //   // setIsStreaming(false);
+    // }
+
+    ollama.abort();
+  }, []);
 
   const sendMessage = useCallback(
     async (message: any) => {
       // Abort the previous request if it exists
-      if (controller) {
-        abortLastRequest();
-      }
+      abortLastRequest();
 
-      controller = new AbortController();
-      const signal = controller.signal;
+      // Create a new AbortController for the current request
+      // controller.current = new AbortController();
+      // const signal = controller.current.signal;
+      // console.log({ controller, signal });
 
       const userMessage = {
         id: crypto.randomUUID(),
@@ -101,18 +110,27 @@ export const OllamaProvider: React.FC<AppProviderProps> = ({ children }) => {
           },
         ],
         stream: true,
-        signal: signal,
       };
 
       setLoading(true);
-      const res: any = await ollama.chat(payload);
-      setLoading(false);
 
-      setIsStreaming(true);
-      for await (const part of res) {
-        setStreamingContent((prev) => prev + part.message.content);
+      try {
+        const res: any = await ollama.chat(payload);
+        setLoading(false);
+
+        setIsStreaming(true);
+        for await (const part of res) {
+          setStreamingContent((prev) => prev + part.message.content);
+        }
+      } catch (error: any) {
+        if (error.name === "AbortError") {
+          console.log("Request was aborted");
+        } else {
+          console.error("An error occurred:", error);
+        }
+      } finally {
+        setIsStreaming(false);
       }
-      setIsStreaming(false);
     },
     [selectedModel]
   );
@@ -126,6 +144,7 @@ export const OllamaProvider: React.FC<AppProviderProps> = ({ children }) => {
         isLoading,
         error,
         sendMessage,
+        abortLastRequest,
         setLoading,
         setError,
       }}
