@@ -2,11 +2,11 @@
 
 A Web UI for ollama api, Built using Next.js.
 
-## Screenshot
+## Screenshots
 
 ![ollama web](./screenshots/screenshot1.png "ollama web")
 
-## Run App (Ollama Required)
+## Run App in Local (Ollama Required)
 
 ### Using NPM
 
