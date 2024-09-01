@@ -3,6 +3,10 @@ interface RequestOptions extends RequestInit {
   body?: any;
 }
 
+function isPlainObject(obj: any) {
+  return Object.prototype.toString.call(obj) === "[object Object]";
+}
+
 class BaseApi {
   private baseURL: string;
   private headers: HeadersInit;
@@ -25,7 +29,8 @@ class BaseApi {
       } as HeadersInit & { "Content-Type": string },
     };
 
-    if (options.body && typeof options.body === "object") {
+    // Add JSON body if it exists
+    if (isPlainObject(options)) {
       config.body = JSON.stringify(options.body);
       if (!config.headers) {
         config.headers = {};
@@ -35,10 +40,11 @@ class BaseApi {
     }
 
     try {
+      console.log("API request:", url, config);
       const response = await fetch(url, config);
-      // console.log("API response:", response);
+      console.log("API response:", response);
       const data = await response.json();
-      // console.log("API data:", response);
+      console.log("API data:", data);
 
       if (!response.ok) {
         throw new Error(data.message || "An error occurred");

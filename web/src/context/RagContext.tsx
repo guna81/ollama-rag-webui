@@ -10,58 +10,45 @@ import React, {
 
 import ollama from "ollama/browser";
 import { useApp } from "./AppContext";
+import { loadDocuments } from "@/services/document";
 
-// interface Document {
-//   id: string;
-//   title: string;
-//   content: string;
-// }
-
-export interface Message {
+interface Document {
   id: string;
-  sender: string;
-  content: any;
-  timestamp: Date;
+  title: string;
+  content: string;
 }
 
-interface AppProviderProps {
+interface RagProviderProps {
   children: ReactNode;
 }
 
 interface ChatContextProps {
-  streamingCotent: string;
-  isStreaming: boolean;
-  messages: Message[];
+  document: Document | null;
   isLoading: boolean;
   error: string | null;
+  loadDocument: (payload: any) => void;
   sendMessage: (payload: any) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
 }
 
-const OllamaContext = createContext<ChatContextProps | undefined>(undefined);
+const RagContext = createContext<ChatContextProps | undefined>(undefined);
 
-export const OllamaProvider: React.FC<AppProviderProps> = ({ children }) => {
+export const RagProvider: React.FC<RagProviderProps> = ({ children }) => {
   const { selectedModel } = useApp();
 
-  const [streamingCotent, setStreamingContent] = useState<string>("");
-  const [isStreaming, setIsStreaming] = useState<boolean>(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [document, setDocument] = useState<Document | null>(null);
+
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!isStreaming && streamingCotent) {
-      const responseMessage = {
-        id: crypto.randomUUID(),
-        sender: "assistant",
-        content: streamingCotent,
-        timestamp: new Date(),
-      };
-      setMessages((prevMessages) => [...prevMessages, responseMessage]);
-      setStreamingContent("");
-    }
-  }, [isStreaming, streamingCotent]);
+  const loadDocument = useCallback(async (file: any) => {
+    setDocument(file);
+    const formData = new FormData();
+    formData.append("file", file);
+    // const res: any = await loadDocuments(formData);
+    // console.log({ res });
+  }, []);
 
   const sendMessage = useCallback(
     async (message: any) => {
@@ -71,7 +58,7 @@ export const OllamaProvider: React.FC<AppProviderProps> = ({ children }) => {
         content: message,
         timestamp: new Date(),
       };
-      setMessages((prevMessages) => [...prevMessages, userMessage]);
+      // setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const payload: any = {
         model: selectedModel,
@@ -86,35 +73,34 @@ export const OllamaProvider: React.FC<AppProviderProps> = ({ children }) => {
 
       const res: any = await ollama.chat(payload);
 
-      setIsStreaming(true);
-      for await (const part of res) {
-        setStreamingContent((prev) => prev + part.message.content);
-      }
-      setIsStreaming(false);
+      // setIsStreaming(true);
+      // for await (const part of res) {
+      //   setStreamingContent((prev) => prev + part.message.content);
+      // }
+      // setIsStreaming(false);
     },
     [selectedModel]
   );
 
   return (
-    <OllamaContext.Provider
+    <RagContext.Provider
       value={{
-        streamingCotent,
-        isStreaming,
-        messages,
+        document,
         isLoading,
         error,
+        loadDocument,
         sendMessage,
         setLoading,
         setError,
       }}
     >
       {children}
-    </OllamaContext.Provider>
+    </RagContext.Provider>
   );
 };
 
-export const useOllama = (): ChatContextProps => {
-  const context = useContext(OllamaContext);
+export const useRag = (): ChatContextProps => {
+  const context = useContext(RagContext);
   if (context === undefined) {
     throw new Error("useChat must be used within a ChatProvider");
   }

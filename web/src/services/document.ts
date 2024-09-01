@@ -1,28 +1,22 @@
 import BaseApi from "./baseApi";
 
-const API_URL = "http://127.0.0.1:8080";
+const API_URL = "http://127.0.0.1:8000";
 
 export const api = new BaseApi(API_URL, {
-  Authorization: "Bearer your-token",
-  "Custom-Header": "custom-value",
+  // Authorization: "Bearer your-token",
+  // "Custom-Header": "custom-value",
 });
-
-// Example usage
-// const getData = async () => {
-//   try {
-//     const data = await api.get<any>("/data-endpoint");
-//     console.log(data);
-//   } catch (error) {
-//     console.error("Error fetching data:", error);
-//   }
-// };
 
 export const loadDocuments = async (payload: any) => {
   try {
-    const data = await api.post<any>("/load-docs", payload, {
+    console.log({ payload });
+
+    const data = await api.post<any>("/api/embed-doc/", payload, {
       // "Content-Type": "multipart/form-data",
     });
-    console.log(data);
+    console.log({ data });
+
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
   }

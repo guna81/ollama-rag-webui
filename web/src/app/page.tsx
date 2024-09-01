@@ -11,6 +11,7 @@ import styles from "../styles/Home.module.css";
 
 import "@/styles/styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { RagProvider } from "@/context/RagContext";
 
 const Home: React.FC = () => {
   return (
@@ -20,10 +21,12 @@ const Home: React.FC = () => {
       </Head> */}
 
       <AppProvider>
-        <OllamaProvider>
-          <Sidebar />
-          <Main />
-        </OllamaProvider>
+        <RagProvider>
+          <OllamaProvider>
+            <Sidebar />
+            <Main />
+          </OllamaProvider>
+        </RagProvider>
       </AppProvider>
     </div>
   );

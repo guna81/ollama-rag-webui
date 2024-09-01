@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "@/styles/InputSection.module.css";
 
 import { useOllama } from "@/context/OllamaContext";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane, faStop } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFile,
+  faPaperPlane,
+  faPaperclip,
+  faStop,
+} from "@fortawesome/free-solid-svg-icons";
 
 import Form from "react-bootstrap/Form";
+import { useRag } from "@/context/RagContext";
 
 const InputSection: React.FC = () => {
   const { isLoading, isStreaming, sendMessage, abortLastRequest } = useOllama();
+  const { document, loadDocument } = useRag();
   const [message, setMessage] = useState("");
+  const [file, setFile] = useState<File | null>(null);
 
   const handleSendMessage = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -23,6 +31,23 @@ const InputSection: React.FC = () => {
       console.error(error);
     }
   };
+
+  const handleFileUpload = async () => {
+    if (file) {
+      try {
+        const res: any = await loadDocument(file);
+        console.log({ res });
+      } catch (error) {
+        console.log({ error });
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (file) {
+      handleFileUpload();
+    }
+  }, [file]);
 
   const handleAbort = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -53,15 +78,26 @@ const InputSection: React.FC = () => {
         onChange={(e: any) => setMessage(e.target.value)}
         onKeyDown={handleKeyDown}
       />
-      {isLoading || isStreaming ? (
-        <a className={styles.sendButton} onClick={handleAbort}>
-          <FontAwesomeIcon icon={faStop} />
-        </a>
-      ) : (
-        <a className={styles.sendButton} onClick={handleSendMessage}>
-          <FontAwesomeIcon icon={faPaperPlane} />
-        </a>
-      )}
+      <div className={styles.sendButtonContainer}>
+        <label className={styles.fileButton}>
+          <input
+            type="file"
+            className={styles.fileInput}
+            // value={file}
+            onChange={(e: any) => setFile(e.target.files[0])}
+          />
+          <FontAwesomeIcon icon={faPaperclip} />
+        </label>
+        {isLoading || isStreaming ? (
+          <a className={styles.sendButton} onClick={handleAbort}>
+            <FontAwesomeIcon icon={faStop} />
+          </a>
+        ) : (
+          <a className={styles.sendButton} onClick={handleSendMessage}>
+            <FontAwesomeIcon icon={faPaperPlane} />
+          </a>
+        )}
+      </div>
     </form>
   );
 };
