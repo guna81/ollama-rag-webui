@@ -8,12 +8,6 @@ A Web UI for ollama api, Built using Next.js.
 
 ## Run App in Local (Ollama Required)
 
-### Using NPM
-
-```bash
-  cd web && npm install && npm run dev
-```
-
 ### Using Docker
 
 ```bash
