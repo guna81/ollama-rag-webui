@@ -3,9 +3,7 @@ interface RequestOptions extends RequestInit {
   body?: any;
 }
 
-function isPlainObject(obj: any) {
-  return Object.prototype.toString.call(obj) === "[object Object]";
-}
+const isFormData = (body: any) => body instanceof FormData;
 
 class BaseApi {
   private baseURL: string;
@@ -30,7 +28,7 @@ class BaseApi {
     };
 
     // Add JSON body if it exists
-    if (isPlainObject(options)) {
+    if (options.body && !isFormData(options.body)) {
       config.body = JSON.stringify(options.body);
       if (!config.headers) {
         config.headers = {};

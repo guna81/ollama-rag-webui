@@ -8,7 +8,6 @@ import React, {
   useEffect,
 } from "react";
 
-import ollama from "ollama/browser";
 import { useApp } from "./AppContext";
 import { loadDocuments } from "@/services/document";
 
@@ -23,11 +22,10 @@ interface RagProviderProps {
 }
 
 interface ChatContextProps {
-  document: Document | null;
+  document: Document[];
   isLoading: boolean;
   error: string | null;
   loadDocument: (payload: any) => void;
-  sendMessage: (payload: any) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
 }
@@ -37,50 +35,18 @@ const RagContext = createContext<ChatContextProps | undefined>(undefined);
 export const RagProvider: React.FC<RagProviderProps> = ({ children }) => {
   const { selectedModel } = useApp();
 
-  const [document, setDocument] = useState<Document | null>(null);
+  const [document, setDocument] = useState<Document[]>([]);
 
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const loadDocument = useCallback(async (file: any) => {
-    setDocument(file);
+    setDocument((prev) => [...prev, file]);
     const formData = new FormData();
     formData.append("file", file);
-    // const res: any = await loadDocuments(formData);
-    // console.log({ res });
+    const res: any = await loadDocuments(formData);
+    console.log({ res });
   }, []);
-
-  const sendMessage = useCallback(
-    async (message: any) => {
-      const userMessage = {
-        id: crypto.randomUUID(),
-        sender: "user",
-        content: message,
-        timestamp: new Date(),
-      };
-      // setMessages((prevMessages) => [...prevMessages, userMessage]);
-
-      const payload: any = {
-        model: selectedModel,
-        messages: [
-          {
-            role: "user",
-            content: message,
-          },
-        ],
-        stream: true,
-      };
-
-      const res: any = await ollama.chat(payload);
-
-      // setIsStreaming(true);
-      // for await (const part of res) {
-      //   setStreamingContent((prev) => prev + part.message.content);
-      // }
-      // setIsStreaming(false);
-    },
-    [selectedModel]
-  );
 
   return (
     <RagContext.Provider
@@ -89,7 +55,6 @@ export const RagProvider: React.FC<RagProviderProps> = ({ children }) => {
         isLoading,
         error,
         loadDocument,
-        sendMessage,
         setLoading,
         setError,
       }}

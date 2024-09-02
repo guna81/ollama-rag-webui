@@ -1,12 +1,17 @@
 import React, { useRef, useEffect } from "react";
 import styles from "@/styles/ChatSection.module.css";
-import { Message, useApp } from "@/context/AppContext";
 import Markdown from "react-markdown";
-import { useOllama } from "@/context/OllamaContext";
+import { Message, useChat } from "@/context/ChatContext";
 import Skeleton from "react-loading-skeleton";
 import { Card, ListGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRobot, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFile,
+  faRobot,
+  faStop,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
+import Spinner from "react-bootstrap/Spinner";
 
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -15,7 +20,9 @@ export interface MessageProps {
 }
 
 const ChatSection: React.FC = () => {
-  const { streamingCotent, isLoading, isStreaming, messages } = useOllama();
+  const { streamingCotent, loading, messages } = useChat();
+  const { isLoading, isStreaming } = loading;
+
   const chatRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -52,6 +59,7 @@ const ChatSection: React.FC = () => {
                 sender: "assistant",
                 content: streamingCotent,
                 timestamp: new Date(),
+                type: "text",
               }}
             />
           )}
@@ -64,9 +72,33 @@ const ChatSection: React.FC = () => {
 export default ChatSection;
 
 const UserQuery: React.FC<MessageProps> = ({ message }) => {
+  const { loading } = useChat();
+  const { documentLoading } = loading;
+
   return (
     <ListGroup.Item className="mb-2 d-flex justify-content-end border-0">
-      <div className={styles.userQuery}>{message.content}</div>
+      <div className={styles.userQuery}>
+        {message.type === "text" ? (
+          message.content
+        ) : (
+          <div>
+            {documentLoading ? (
+              <Spinner
+                style={{ marginRight: "12px" }}
+                animation="border"
+                size="sm"
+              />
+            ) : (
+              <FontAwesomeIcon
+                // className={styles.userIcon}
+                style={{ marginRight: "12px" }}
+                icon={faFile}
+              />
+            )}
+            {message.content.name}
+          </div>
+        )}
+      </div>
       <FontAwesomeIcon
         className={styles.userIcon}
         style={{ marginLeft: "12px" }}

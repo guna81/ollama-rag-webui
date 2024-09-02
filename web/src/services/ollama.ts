@@ -1,6 +1,6 @@
 import BaseApi from "./baseApi";
 
-const API_URL = "http://localhost:11434";
+const API_URL: string = process.env.OLLAMA_API_URL || "http://127.0.0.1:11434";
 
 export const api = new BaseApi(API_URL, {
   // Authorization: "Bearer your-token",
@@ -18,24 +18,6 @@ export const getModelList = async () => {
     };
   } catch (error) {
     console.error("Error fetching data:", error);
-    result = {
-      error: error,
-    };
-  }
-  return result;
-};
-
-export const chat = async (payload: any) => {
-  let result = {};
-  try {
-    const res = await api.post<any>("/api/chat", payload);
-    console.log({ res });
-
-    result = {
-      data: res,
-    };
-  } catch (error) {
-    console.error("Error posting data:", error);
     result = {
       error: error,
     };

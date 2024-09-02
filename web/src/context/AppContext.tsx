@@ -7,14 +7,7 @@ import React, {
   useCallback,
 } from "react";
 
-import { chat, getModelList } from "@/services/ollama";
-
-export interface Message {
-  id: string;
-  sender: string;
-  content: any;
-  timestamp: Date;
-}
+import { getModelList } from "@/services/ollama";
 
 interface AppProviderProps {
   children: ReactNode;

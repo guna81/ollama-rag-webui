@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 
 from langchain_community.document_loaders import UnstructuredPDFLoader
 from langchain_community.embeddings import OllamaEmbeddings
@@ -7,6 +8,8 @@ from langchain_community.vectorstores import Chroma
 
 from .files import allowed_file, get_temp_file_path
 
+# Load the environment variables
+load_dotenv()
 
 CHROMA_PATH = os.getenv('CHROMA_PATH', 'chroma')
 COLLECTION_NAME = os.getenv('COLLECTION_NAME', 'local-rag')

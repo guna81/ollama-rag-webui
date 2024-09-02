@@ -5,13 +5,12 @@ import React from "react";
 import Sidebar from "../components/layout/Sidebar";
 import Main from "../components/Main";
 import { AppProvider } from "@/context/AppContext";
-import { OllamaProvider } from "@/context/OllamaContext";
+import { ChatProvider } from "@/context/ChatContext";
 
 import styles from "../styles/Home.module.css";
 
 import "@/styles/styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { RagProvider } from "@/context/RagContext";
 
 const Home: React.FC = () => {
   return (
@@ -21,12 +20,10 @@ const Home: React.FC = () => {
       </Head> */}
 
       <AppProvider>
-        <RagProvider>
-          <OllamaProvider>
-            <Sidebar />
-            <Main />
-          </OllamaProvider>
-        </RagProvider>
+        <ChatProvider>
+          <Sidebar />
+          <Main />
+        </ChatProvider>
       </AppProvider>
     </div>
   );

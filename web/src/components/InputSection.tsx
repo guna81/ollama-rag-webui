@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/InputSection.module.css";
 
-import { useOllama } from "@/context/OllamaContext";
+import { useChat } from "@/context/ChatContext";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,11 +12,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import Form from "react-bootstrap/Form";
-import { useRag } from "@/context/RagContext";
 
 const InputSection: React.FC = () => {
-  const { isLoading, isStreaming, sendMessage, abortLastRequest } = useOllama();
-  const { document, loadDocument } = useRag();
+  const { loading, sendMessage, abortLastRequest, loadDocument } = useChat();
+  const { isLoading, isStreaming, documentLoading } = loading;
+
   const [message, setMessage] = useState("");
   const [file, setFile] = useState<File | null>(null);
 

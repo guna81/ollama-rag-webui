@@ -1,4 +1,6 @@
 import os
+from dotenv import load_dotenv
+
 from langchain_community.chat_models import ChatOllama
 from langchain.prompts import ChatPromptTemplate, PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
@@ -7,8 +9,10 @@ from langchain.retrievers.multi_query import MultiQueryRetriever
 
 from .vector_db import get_vector_db
 
+# Load the environment variables
+load_dotenv()
 
-LLM_MODEL = 'llama3' # os.getenv('LLM_MODEL', 'llama3')
+LLM_MODEL = os.getenv('LLM_MODEL', 'llama3')
 
 # Initialize the language model with the specified model name
 llm = ChatOllama(model=LLM_MODEL)
