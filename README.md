@@ -1,6 +1,6 @@
 # Ollama Web UI
 
-A Web UI for ollama api, Built using Next.js.
+A Web UI for ollama api with RAG support, Built using Next.js and Django.
 
 ## Screenshots
 
