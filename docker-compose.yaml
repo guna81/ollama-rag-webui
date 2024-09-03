@@ -1,20 +1,47 @@
 services:
+  ollama:
+    image: ollama/ollama:latest
+    pull_policy: always
+    container_name: ollama
+    tty: true
+    ports:
+      - 11434:11434
+    volumes:
+      - ollama:/root/.ollama
+    networks:
+      - ollama
   
   web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
     container_name: ollama-web
-    build: ./web
     ports:
-      - ${FRONTEND_PORT}:3000
+      - 3000:3000
     volumes:
-      - ../ollama-web:/ollama-web
+      - ./web:/web
     restart: unless-stopped
+    networks:
+      - ollama
 
   backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: ollama-backend
-    build: ./backend
     ports:
-      - ${BACKEND_PORT}:8000
+      - 8000:8000
     volumes:
-      - ../ollama-backend:/ollama-backend
+      - ./backend:/backend
     command: bash -c "python manage.py runserver 0.0.0.0:8000"
     restart: unless-stopped
+    networks:
+      - ollama
+
+volumes:
+  ollama:
+
+networks:
+  ollama:
+    driver: overlay
+    attachable: true

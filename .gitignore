@@ -1,6 +1,6 @@
 # my files
 todo
 todo.txt
-
+backend/db.sqlite3
 .env
 .env.*
