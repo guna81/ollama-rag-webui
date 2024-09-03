@@ -1,10 +1,9 @@
 import BaseApi from "./baseApi";
 
-const API_URL: string = process.env.RAG_API_URL || "http://127.0.0.1:8000";
+const API_URL: string = process.env.RAG_API_URL || "http://127.0.0.1:8008";
 
 export const api = new BaseApi(API_URL, {
   // Authorization: "Bearer your-token",
-  // "Custom-Header": "custom-value",
 });
 
 export const loadDocuments = async (payload: any) => {
