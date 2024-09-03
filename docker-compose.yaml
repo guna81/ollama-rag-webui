@@ -18,8 +18,8 @@ services:
     container_name: ollama-web
     ports:
       - 3000:3000
-    volumes:
-      - ./web:/web
+    # volumes:
+    #   - ./web:/web
     restart: unless-stopped
     networks:
       - ollama
