@@ -1,6 +1,8 @@
-FROM  python:3.11.2-slim-bullseye
+FROM  python:3.11.5-bookworm
 
 ENV PYTHONUNBUFFERED=1
+
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
 
 WORKDIR /backend
 

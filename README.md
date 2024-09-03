@@ -11,5 +11,6 @@ A Web UI for ollama api with RAG support, Built using Next.js and Django.
 ### Using Docker
 
 ```bash
-  docker compose up --build
+docker compose build
+docker compose up
 ```
