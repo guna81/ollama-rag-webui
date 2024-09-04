@@ -1,11 +1,12 @@
-FROM node:18.17.0
+FROM node:18.17.0-alpine
 
 WORKDIR /web
 
-COPY . .
+COPY . /web
 
 RUN npm install
 
-EXPOSE 3000
+# Build the Next.js application
+RUN npm run build
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]
