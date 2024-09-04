@@ -12,10 +12,14 @@ from .vector_db import get_vector_db
 # Load the environment variables
 load_dotenv()
 
-LLM_MODEL = os.getenv('LLM_MODEL', 'llama3')
+# LLM_MODEL = os.getenv('LLM_MODEL', 'llama3')
 
 # Initialize the language model with the specified model name
-llm = ChatOllama(model=LLM_MODEL)
+# llm = ChatOllama(model=LLM_MODEL)
+
+def load_model(model_name):
+    llm = ChatOllama(model=model_name)
+    return llm
 
 # Function to get the prompt templates for generating alternative questions and answering based on context
 def get_prompt():
@@ -40,7 +44,10 @@ def get_prompt():
 
 
 # Main function to handle the query process
-def chat(query):    
+def chat(query, model_name, stream):
+    # Get the llm model
+    model = load_model(model_name)
+    print('model', model)
     # Get the vector database instance
     db = get_vector_db()
     # Get the prompt templates
@@ -49,7 +56,7 @@ def chat(query):
     # Set up the retriever to generate multiple queries using the language model and the query prompt
     retriever = MultiQueryRetriever.from_llm(
         db.as_retriever(), 
-        llm,
+        model,
         prompt=QUERY_PROMPT
     )
 
@@ -57,7 +64,7 @@ def chat(query):
     chain = (
         {"context": retriever, "question": RunnablePassthrough()}
         | prompt
-        | llm
+        | model
         | StrOutputParser()
     )
 

@@ -1,6 +1,7 @@
 import BaseApi from "./baseApi";
 
-const API_URL: string = process.env.OLLAMA_API_URL || "http://127.0.0.1:11434";
+const API_URL: string =
+  process.env.NEXT_PUBLIC_OLLAMA_API_URL || "http://127.0.0.1:11434";
 
 export const api = new BaseApi(API_URL, {
   // Authorization: "Bearer your-token",

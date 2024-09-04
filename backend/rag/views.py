@@ -28,8 +28,13 @@ class Chat(views.APIView):
 
     def post(self, request, format=None):
         try:
-            query = request.data['query']
-            response = chat(query)
+            messages = request.data['messages']
+            model = request.data['model']
+            stream = request.data['stream']
+            print(messages)
+            query = messages[0]['content']
+            print(query)
+            response = chat(query, model, stream)
             return Response({
                 'response': response,
                 'success': True

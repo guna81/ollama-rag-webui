@@ -132,22 +132,16 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
     };
     addMessage(userMessage);
 
-    // const payload: any = {
-    //   model: selectedModel,
-    //   messages: [
-    //     {
-    //       role: "user",
-    //       content: message,
-    //     },
-    //   ],
-    //   stream: true,
-    // };
-
-    const payload = {
-      query: message,
+    const payload: any = {
+      model: selectedModel,
+      messages: [
+        {
+          role: "user",
+          content: message,
+        },
+      ],
+      stream: true,
     };
-
-    console.log({ payload });
 
     updateLoading("isLoading", true);
     const res: any = await chat(payload);
