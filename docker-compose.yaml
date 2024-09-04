@@ -2,16 +2,14 @@ services:
   ollama:
     image: ollama/ollama:latest
     pull_policy: always
-    entrypoint: /bin/sh -c
-    command: |
-      "ollama pull llama3:8b && 
-      ollama serve"
+    entrypoint: /root/models.sh
     container_name: ollama
     tty: true
     ports:
       - 11434:11434
     volumes:
       - ollama:/root/.ollama
+      - ./models.sh:/root/models.sh
     networks:
       - ollama
   
