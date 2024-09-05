@@ -157,7 +157,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information. -->
 
 ## Contact
 
-Your Name - [https://twitter.com/guna81](https://twitter.com/your_username) - gunaps810@gmail.com
+Guna - [https://www.guna81.com](https://www.guna81.com) - gunaps810@gmail.com
 
 Project Link: [https://github.com/guna81/ollama-rag-webui](https://github.com/guna81/ollama-rag-webui)
 
