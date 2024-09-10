@@ -84,6 +84,7 @@ const InputSection: React.FC = () => {
             type="file"
             className={styles.fileInput}
             // value={file}
+            accept="application/pdf"
             onChange={(e: any) => setFile(e.target.files[0])}
           />
           <FontAwesomeIcon icon={faPaperclip} />
