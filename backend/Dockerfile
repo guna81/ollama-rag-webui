@@ -23,6 +23,10 @@ RUN apt-get update && \
     ncurses-base \
     login \
     libtinfo6 \
+    ffmpeg \
+    libsm6 \
+    libxext6 \
+    poppler-utils \
     && apt-get upgrade -y libkrb5-3 libkrb5support0 libsqlite3-0 perl-base zlib1g libk5crypto3 libgssapi-krb5-2 libexpat1 gcc-12-base libgcc-s1 libgcrypt20 libncursesw6 libpam-modules libssl3 openssl ncurses-bin ncurses-base login libtinfo6 \
     && apt-get purge -y --auto-remove && \
     rm -rf /var/lib/apt/lists/* /root/.cache /root/.local
@@ -34,7 +38,8 @@ WORKDIR /backend
 COPY requirements.txt requirements.txt
 
 # install python dependencies
-RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+# RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Add app User and Group
 RUN addgroup --system python && adduser --system --group python
