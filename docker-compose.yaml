@@ -1,12 +1,12 @@
 services:
   ollama:
     image: ollama/ollama:latest
-    pull_policy: always
-    entrypoint: ["/usr/bin/bash", "/root/models.sh"]
     container_name: ollama
+    entrypoint: ["/usr/bin/bash", "/root/models.sh"]
     tty: true
+    restart: unless-stopped
     ports:
-      - 11434:11434
+      - "11434:11434"
     volumes:
       - ollama:/root/.ollama
       - ./models.sh:/root/models.sh
